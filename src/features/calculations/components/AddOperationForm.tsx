@@ -40,6 +40,24 @@ export const AddOperationForm = ({
   });
 
   const onSubmit = async (data: FormValues) => {
+    // check if the data value is number
+    if (typeof data.number !== 'number') {
+      toast.error('Number must be a number');
+      return;
+    }
+
+    // check if the data value is greater than 1_000_000 or less than -1_000_000
+    if (data.number > 1_000_000 || data.number < -1_000_000) {
+      toast.error('Number must be between -1,000,000 and 1,000,000');
+      return;
+    }
+
+    // check if the data value is not a number
+    if (Number.isNaN(data.number)) {
+      toast.error('Number must be a number');
+      return;
+    }
+
     try {
       await addOperationMutation.mutateAsync({
         parentId,
@@ -82,7 +100,6 @@ export const AddOperationForm = ({
                 <FormLabel>Enter a number</FormLabel>
                 <FormControl>
                   <Input
-                    type="number"
                     placeholder="Enter a number"
                     {...field}
                     onChange={(e) =>
