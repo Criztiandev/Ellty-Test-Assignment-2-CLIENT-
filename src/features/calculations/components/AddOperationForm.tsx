@@ -52,7 +52,6 @@ export const AddOperationForm = ({
       return;
     }
 
-    // check if the data value is not a number
     if (Number.isNaN(data.number)) {
       toast.error('Number must be a number');
       return;
