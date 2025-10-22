@@ -33,6 +33,21 @@ export const CreateStartingForm = () => {
 
   const onSubmit = async (data: FormValues) => {
     try {
+      if (typeof data.number !== 'number') {
+        toast.error('Starting number must be a number');
+        return;
+      }
+
+      if (data.number > 1_000_000 || data.number < -1_000_000) {
+        toast.error('Starting number must be between -1,000,000 and 1,000,000');
+        return;
+      }
+
+      if (Number.isNaN(data.number)) {
+        toast.error('Starting number must be a number');
+        return;
+      }
+
       await createStartingMutation.mutateAsync({ number: data.number });
       toast.success('Starting number created successfully!');
       form.reset({ number: 0 });
@@ -59,7 +74,6 @@ export const CreateStartingForm = () => {
                   <FormLabel>Starting Number</FormLabel>
                   <FormControl>
                     <Input
-                      type="number"
                       placeholder="Enter a number"
                       {...field}
                       onChange={(e) =>
